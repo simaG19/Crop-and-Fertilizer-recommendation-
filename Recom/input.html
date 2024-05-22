@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Form</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/64d58efce2.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <span class="big-circle"></span>
+     
+      <div class="form">
+        <div class="contact-info">
+          <h3 class="title">Fertilizer Recommendation <br/> Discribtion:</h3>
+         
+        
+          
+          <div id="result" style="display: none;">
+            <h2><br/>Recommendation Result</h2>
+            <p id="recommendedCrop"></p>
+            <p id="recommendedFertilizer"></p>
+        </div>
+          
+
+
+        </div>
+
+        <div class="contact-form">
+          <span class="circle one"></span>
+          <span class="circle two"></span>
+
+          <form id="cropForm" >
+            <h3 class="title">Contact us</h3>
+            <div class="input-container">
+              <input type="text" id="soilColor" name="soilColor" step="0.01" class="input" />
+              <label for="">Soil Color</label>
+              <span>Soil color</span>
+            </div>
+            <div class="input-container">
+              <input type="number" id="nitrogen" name="nitrogen" step="0.01" class="input" />
+              <label for="">Nitrogen</label>
+              <span>Nitrogen</span>
+            </div>
+             <div class="input-container">
+              <input type="number"  id="phosphorus" name="phosphorus" step="0.01" class="input" />
+              <label for="">Phosphorus</label>
+              <span>Phosphorus</span>
+            </div>
+            <div class="input-container">
+              <input type="number"id="potassium" name="potassium" step="0.01" class="input" />
+              <label for="">potassium</label>
+              <span>potassium</span>
+            </div>
+           
+           
+            <div class="input-container">
+              <input type="number"  id="pH" name="pH" step="0.01" class="input" />
+              <label for="">PH</label>
+              <span>PH</span>
+            </div>
+            <input type="submit" value="Submit"class="btn"  >
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+      $(document).ready(function() {
+          $('#cropForm').submit(function(event) {
+              event.preventDefault();
+
+              // Get the form values
+              var formData = {
+                  'soil_color': $('#soilColor').val(),
+                  'nitrogen': $('#nitrogen').val(),
+                  'phosphorus': $('#phosphorus').val(),
+                  'potassium': $('#potassium').val(),
+                  'pH': $('#pH').val()
+              };
+
+              // Send a POST request to the Flask app
+              $.ajax({
+                  type: 'POST',
+                  url: 'http://127.0.0.1:5000/train_model',
+                  contentType: 'application/json',
+                  data: JSON.stringify(formData),
+                  success: function(response) {
+                      // Display the recommendation result
+                      $('#recommendedCrop').text('Recommended Crop: ' + response.recommended_crop);
+                      $('#recommendedFertilizer').text('Recommended Fertilizer: ' + response.recommended_fertilizer);
+                      $('#result').show();
+                  }
+              });
+          });
+      });
+  </script>
+
+  </body>
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Crop Recommendation Form</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Crop Recommendation Form</h1>
+    <form id="cropForm">
+        <label for="soilColor">Soil Color:</label>
+        <input type="number" id="soilColor" name="soilColor" required><br><br>
+        
+        <label for="nitrogen">Nitrogen Level:</label>
+        <input type="number" id="nitrogen" name="nitrogen" step="0.01" required><br><br>
+        
+        <label for="phosphorus">Phosphorus Level:</label>
+        <input type="number" id="phosphorus" name="phosphorus" step="0.01" required><br><br>
+        
+        <label for="potassium">Potassium Level:</label>
+        <input type="number" id="potassium" name="potassium" step="0.01" required><br><br>
+        
+        <label for="pH">pH Level:</label>
+        <input type="number" id="pH" name="pH" step="0.01" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="result" style="display: none;">
+        <h2>Recommendation Result</h2>
+        <p id="recommendedCrop"></p>
+        <p id="recommendedFertilizer"></p>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#cropForm').submit(function(event) {
+                event.preventDefault();
+
+                // Get the form values
+                var formData = {
+                    'soil_color': $('#soilColor').val(),
+                    'nitrogen': $('#nitrogen').val(),
+                    'phosphorus': $('#phosphorus').val(),
+                    'potassium': $('#potassium').val(),
+                    'pH': $('#pH').val()
+                };
+
+                // Send a POST request to the Flask app
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://127.0.0.1:5000/train_model',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function(response) {
+                        // Display the recommendation result
+                        $('#recommendedCrop').text('Recommended Crop: ' + response.recommended_crop);
+                        $('#recommendedFertilizer').text('Recommended Fertilizer: ' + response.recommended_fertilizer);
+                        $('#result').show();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> -->
